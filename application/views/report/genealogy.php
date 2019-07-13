@@ -1,0 +1,1 @@
+<b>hello my name is <?php echo '['. $distributor->id . '] - ' . $distributor->first_name . ' ' . $distributor->last_name; ?></b>
