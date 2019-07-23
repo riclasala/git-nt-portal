@@ -80,7 +80,7 @@
 							<li class="user-body">
 								<div class="row">
 									<div class="col-xs-4 text-center" style="padding-right: 0px">
-										<a href="<?php echo base_url();?>genealogy"><i class="fa fa-tree"></i> Geneology</a>
+										<a href="<?php echo base_url('report/genealogy');?>"><i class="fa fa-tree"></i> Geneology</a>
 									</div>
 									<div class="col-xs-4 text-center">
 										<a href="#"><i class="ion ion-trophy"></i> Awards</a>
@@ -132,7 +132,7 @@
 				<li><a href="<?php echo base_url(); ?>"><i class="fa fa-dashboard text-aqua"></i> <span>Dashboard</span></a></li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-child text-yellow"></i> <span>Race To the Top</span>
+						<i class="fa fa-child text-yellow"></i> <span class="text-yellow">Race To the Top</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -148,7 +148,7 @@
 				</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-industry text-red"></i> <span>Year to Date</span>
+						<i class="fa fa-industry text-red"></i> <span class="text-yellow">Year to Date</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -182,7 +182,7 @@
 				</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-files-o text-green"></i> <span>Other Reports</span>
+						<i class="fa fa-files-o text-green"></i> <span class="text-blue">Other Reports</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>

@@ -27,8 +27,8 @@
 			return $rows;
 		}
 
-		public function getGenealogy($user){
-			$url = 'http://'.$this->server_ip.'/nutritech_api/geneology1/'.$user;
+		public function getGenealogyApi($user){
+			$url = 'http://'.$this->server_ip.'/nutritech_api/geneology/'.$user;
 			$response = $this->retrieve_data_api($user, $url);
 			$rows = json_decode($response, TRUE);
 			return $rows;

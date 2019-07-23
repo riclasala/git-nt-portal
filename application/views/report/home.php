@@ -17,10 +17,10 @@
      color: #009933; 
 } 
 .functional{ 
-     color: blue; 
+     color: #3399cc; 
 } 
 .non-functional{ 
-     color: red; 
+     color: yellow; 
 } 
 div.news{  
           padding: 15px;  

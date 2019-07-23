@@ -24,16 +24,13 @@
 		width: 25px;
 	}
 	.distributors:hover{
-		background: rgba(51,51,102,0.8);
+		background: rgba(153,153,153,0.8);
 		color: white;
 	}	
 	.distributors span{		
 		text-align: left;
 		display: inline-block;
 		width: 18%;
-	}
-	#first-column{
-		margin-top: -20px;
 	}
 	.noChild::before{
 		padding: 5px;		
@@ -159,7 +156,7 @@
 	<i class="fa fa-tree"></i> Genealogy
 	<div class="right" id="filter-display">
 	<a id="display-genealogy" class="display">MY DISTRIBUTORS</a>
-	<a id="display-all-genealogy" class="display">ALL DISTRIBUTORS</a>
+	<a id="display-all-genealogy" class="display">ALL DISTRIBUTORS</a>	
 	<br>
 	</div>
 </div>
@@ -171,29 +168,19 @@
     </div>
 </div>
 <script>
-$(document).ready(function(){
-	//variable for complete genealogy	
-var genealogy = [];
-var genealogy_length;
-$('.loader').show();
-$.ajax({ 
-    type: "post",   
-    url: "<?php echo base_url('report/retrievegenealogy/'.$distributor->distributor_id); ?>",
-    //dataType: 'json',
-    success: function(data){
-    	alert(data);
-        genealogy = data;  
-	    genealogy_length = data.length;
-	    var downlines = retrieve_downlines(<?php echo $distributor->distributor_id; ?>);
-	    
-	    var content = generate_content(downlines);
-	    $('#main-container').html(content);
-	    $('#display-genealogy').addClass('active');
-    },
-    complete: function(){
-        $('.loader').hide();
-    }
+//variable for complete genealogy
+var genealogy_object;
+
+$(window).on('load',function(){
+	//pass array object of genealogy to variable
+	genealogy_object = <?php echo json_encode($genealogy) ?>;
+	//alert(genealogy_object[0].distributor);
+	var content = generate_content(genealogy_object);
+	$('#main-container').html(content);
+	$('#display-genealogy').addClass('active');
 });
+
+
 
 //for button click of distributors to display downlines
 function get_downlines(d_id){	
@@ -214,20 +201,22 @@ function get_downlines(d_id){
 
 //retrieval of downlines
 function retrieve_downlines(id){
-	var downlines = [];
-	for(i=0; i<genealogy_length; i++){
-		if(genealogy[i].sponsor_id == id){
-			downlines.push(genealogy[i]);
+	var direct_downlines = [];
+	for(i=0; i<genealogy_object.length; i++){
+		if(genealogy_object[i].d_level>0){
+			if(genealogy_object[i].sponsor_id == id){
+				direct_downlines.push(genealogy_object[i]);
+			}
 		}
 	}
-	return downlines;	
+	return direct_downlines;	
 }
 
 //check if a distributor has downline
 function has_downlines(d_id){
 	var has_child = false;
-	for(z=0;z<genealogy_length; z++){
-		var rec = genealogy[z];
+	for(z=0;z<genealogy_object.length; z++){
+		var rec = genealogy_object[z];
 		if(rec['sponsor_id'] == d_id){
 			has_child = true; 
 			break;
@@ -236,47 +225,55 @@ function has_downlines(d_id){
 	return has_child;
 }
 
+
+
 //function generates content when downlines is loaded
 function generate_content(array){
 	var content = "<div style='width: 100%;'>";
 	for(x=0; x<array.length; x++){
-		var hasChild = "noChild";		
+		var hasChild = "";
+		//alert(record[x].mobile);
 		var record = array[x];
 		var mobile = record['mobile_number'];
 		if(mobile == null){ mobile = " N/A"; }
 		else{ mobile = " " + mobile + " "; }
-		var d_id = record['distributor_id'];		
-		if(has_downlines(d_id) == true){ hasChild = "hasChild";}
-		content += 
-			"<button onclick='get_downlines("+d_id+");' class='distributors "+ hasChild +"' id='" + d_id +"'>"				
-				//+"<div>"
-					+"<span id='first-column'>[" + d_id + "]</span>"
-					+"<span>Name: <b>" + record['distributor'] +"</b></span>"				
-					+"<span>RANK: <b>" + record['rank'] +"</b></span>"
-					+"<span>Last Active:<b>"+"</b></span>"
-					+"<span>Mobile Number:<b>" + mobile +"</b></span>"
-					//+"<span><b>" + mobile +"</b></span>"
-					//+"<span id='separator'> | </span>"
-					//+"<span>Team:" + record['team'] + "</span>"
-				//+"</div>" 
-			+"</button>"
-			+"<div class='child-container'></div>";
+		var d_id = array[x].id;
+		var current_level = record['d_level'];
+		if(has_downlines(d_id) == true){ hasChild = "hasChild"; }
+		else{ hasChild = "noChild"; }
+		if(current_level>0){
+			content += 
+				"<button onclick='get_downlines("+d_id+");' class='distributors "+ hasChild +"' id='" + d_id +"'>"				
+					//+"<div>"
+						+"<span>NTACH Code: <b>" + record['distributor_code'] + "</b></span>"
+						+"<span>Name: <b>" + record['distributor'] +"</b></span>"				
+						+"<span>RANK: <b>" + record['rank'] +"</b></span>"
+						+"<span>Last Active:<b>"+"</b></span>"
+						+"<span>Mobile Number:<b>" + mobile +"</b></span>"
+						//+"<span>Sponsor ID: <b>"+ array[x].sponsor_id +"</b></span>"
+						//+"<span id='separator'> | </span>"
+						//+"<span>Team:" + record['team'] + "</span>"
+					//+"</div>" 
+				+"</button>"
+				+"<div class='child-container'></div>";
+		}
 	}
 	content += "</div>";
 	return content;		
 }
 
 //function generates all 
-function generate_content_all(array){
+function generate_content_all(array){		
 	var content = "";
 	for(x=0; x<array.length; x++){
 		var hasChild = "noChild";		
-		var record = array[x];
-		var mobile = record['mobile_number'];
+		//var record = array[x];
+		//alert(array[x].distributor);
+		var mobile = array[x].mobile_number;
 		if(mobile == null){ mobile = " N/A"; }
 		else{ mobile = " " + mobile + " "; }
-		var d_id = record['distributor_id'];
-		var current_level = record['d_level'];
+		var d_id = array[x].id;
+		var current_level = array[x].d_level;
 		if(has_downlines(d_id) == true){ hasChild = "hasChild";}
 		//alert(current_level);
 		if(current_level>0){
@@ -290,11 +287,13 @@ function generate_content_all(array){
 				"<div style='margin-left: "+margin+"px;'>"
 				+"<button class='distributors "+ hasChild +" displayed_fixed' id='" + d_id +"'>"					
 					//+"<div>"
-						+"<span id='first-column'>[" + d_id + "]</span>"
-						+"<span>Name: <b>" + record['distributor'] +"<b></span>"							
-						+"<span>RANK: <b>" + record['rank'] +"</b></span>"	
+						//+"<span id='first-column'>[" + d_id + "]</span>"
+						+"<span>NTACH Code: <b>" + array[x].distributor_code + "</b></span>"
+						+"<span>Name: <b>" + array[x].distributor +"</b></span>"							
+						+"<span>RANK: <b>" + array[x].rank +"</b></span>"	
 						+"<span>Last Active:<b>"+"</b></span>"	
-						+"<span>Mobile Number:<b>" + mobile +"</b></span>"	
+						+"<span>Mobile Number:<b>" + mobile +"</b></span>"
+						//+"<span>Sponsor ID: <b>"+ array[x].sponsor_id +"</b></span>"	
 						//+"<span><b>" + mobile +"</b></span>"
 						//+"<span id='separator'> | </span>"
 						//+"<span>Team:" + record['team'] + "</span>"
@@ -308,8 +307,8 @@ function generate_content_all(array){
 	return content;
 }
 
-$('#display-genealogy').on('click',function(){
-	var downlines = retrieve_downlines(<?= $distributor->distributor_id ?>);
+$('#display-genealogy').on('click',function(){	
+	var downlines = retrieve_downlines(<?php echo $this->session->user_id; ?>);
 	var content = generate_content(downlines);
 	$('#main-container').html(content);
 	$(this).addClass('active');
@@ -317,12 +316,10 @@ $('#display-genealogy').on('click',function(){
 });
 
 $('#display-all-genealogy').on('click',function(){
-	var content = generate_content_all(genealogy);	
+	var content = generate_content_all(genealogy_object);	
 	$('#main-container').html(content);
 	$(this).addClass('active');
 	$('#display-genealogy').removeClass('active');
-});
-
 });
 
 

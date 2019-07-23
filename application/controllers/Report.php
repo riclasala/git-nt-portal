@@ -11,22 +11,8 @@
 			parent::display('home');
 		}
 		public function genealogy(){
-			parent::display('genealogy');
-		}
-		public function retrievegenealogy($distributor_id = null){
-			if(is_null($distributor_id)){
-				$distributor_id = $this->input->get('distributor_id');
-			}
-        	$json_array = $this->api_model->getGenealogy($distributor_id);
-        	//print_r($json_array);
-      
-            foreach ($json_array as $info) {
-                //if($info['sponsor_id']  == $distributor_id){
-                    $result[] = $info;
-                //}    
-            }
-            
-        	echo json_encode($result);
+			$data['genealogy'] = $this->api_model->getGenealogyApi($this->session->user_id);
+			parent::display('genealogy',$data);
 		}
 
 		public function soa(){
