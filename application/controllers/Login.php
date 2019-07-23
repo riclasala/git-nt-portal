@@ -7,29 +7,38 @@ class Login extends MY_Controller{
 	public function index(){
 		parent::login('login');
 	}
+	public function logout(){
+		_clear_sessions();
+		redirect('');
+	}
+	
+
+	public function getMessage($distributor){
+		//return '<br /><div class="alert alert-success" role="alert"><i class="fa fa-check"></i> Happy Day!<b> '. $distributor['first_name'] .' '. $distributor['last_name'] .'</b></div>';
+		return 'Happy day! ' . $distributor['first_name'] . ' ' . $distributor['last_name'];
+	}
+
 	public function check_user(){
 		$user = $this->input->post('username');
-		$portal = $this->portal_model->check_user($user);
-
+		$distributor = $this->distributor_model->check_user($user);
 		$message = '';
-
-		if(isset($portal)){
-			$distributor_id = $portal->user_id;
-			$distributor = $this->distributor_model->getInfo($distributor_id);
+		if(isset($distributor)){
 			$message = $this->getMessage($distributor);
-		}else{
-			$distributor = $this->distributor_model->check_user($user);
-			if(isset($distributor)){
-				$message = $this->getMessage($distributor);
-			}
 		}
 		echo $message;
-	}
-	public function getMessage($distributor){
-		return '<br /><div class="alert alert-success" role="alert"><i class="fa fa-check"></i> Happy Day!<b> '. $distributor['first_name'] .' '. $distributor['last_name'] .'</b></div>';
+		
 	}
 
 	public function signin(){
-		
+		$user = $this->input->post('username');
+		$password = $this->input->post('password');
+		$distributor = $this->distributor_model->login($user, $password);
+		$message = '';
+		if(isset($distributor)){
+			$distributor_id = $distributor->distributor_id;
+		}else{
+			$message = '<br /><div class="alert alert-danger" role="alert"><i class="fa fa-times"></i> Incorrect Username / Password.</div>';
+		}
+		echo $message;
 	}
 }

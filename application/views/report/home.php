@@ -1,3 +1,48 @@
+<style> 
+#portalModal{ 
+     color: #333; 
+} 
+.update-list{  
+     display: inline-block;  
+     top: 0;  
+     position: relative;  
+     margin-left: 20px;  
+     margin-right: 20px;  
+     text-align: left;  
+} 
+.update-list i{  
+     display: block;  
+} 
+.green{ 
+     color: #009933; 
+} 
+.functional{ 
+     color: blue; 
+} 
+.non-functional{ 
+     color: red; 
+} 
+div.news{  
+          padding: 15px;  
+     } 
+div.news div{  
+     margin-top: -25px; 
+     text-align: left;  
+     width: 150px;  
+     display: inline-block;  
+     padding: 10px;                      
+     display: inline-block;  
+     font-size: 14px;  
+     width: 100%;  
+     height: auto;  
+     overflow: hidden; 
+} 
+.company-img{ 
+     width: 200px;  
+     margin-top: 30px; 
+} 
+
+</style> 
 
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
@@ -259,4 +304,63 @@
 			</div>
 			<!-- /.row -->
 		</section>
-		
+		<div class="modal hide" id='greetings'> 
+			<center>
+				<div class="update-title"> 
+					<b>PORTAL UPDATES</b> 
+				</div> 
+			</center>
+			<div class="card-group"> 
+				<div class="card mb-2">             
+					<div class="card-body"> 
+						<h5 class="card-title"><b>Functional Features</b></h5> 
+						<div class="functional"> 
+							<p>Genealogy</p> 
+							<p>Statement of Account</p> 
+							<p>Profile</p> 
+							<p>Training Modules</p> 
+							<p>Link to Shop Online</p>
+						</div> 
+					</div> 
+				</div> 
+				<div class="card mb-2"> 
+					<div class="card-body"> 
+						<h5 class="card-title"><b>Non-Functional Features</b></h5> 
+						<div class="non-functional"> 
+							<p>Year to Date</p> 
+							<p>Eagle Awardee</p> 
+							<p>Race to the Top</p> 
+						</div> 
+					</div> 
+				</div> 
+			</div><!-- end of card group --> 
+			<center> <!--
+              <div class="update-title"> 
+                   <b>NEWS and UPDATES</b> 
+              </div> 
+              <div class="news"> 
+                    <div> 
+                         <p>Commissions have stated to get into your accounts as of today. Your are about to receive your deposits by now in the mean time Please be guided accordingly</p> 
+                   </div>                                       
+              </div>--><br> 
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><b>OKAY</b></button> 
+				<br> 
+			</center> 
+      </div>       
+			
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$(window).on("load", function () {
+		//	var data = 'Happy day! <?= $distributor->first_name . ' ' . $distributor->last_name ?>';
+			openModal();
+		});
+		function openModal(){
+			//$('.greetings').css('display','block');
+			$('.modal-body').append($('#greetings').html());
+
+			//$('.modal-body').contents().appendTo('.greetings');
+			$('#portalModal').modal();
+		}
+	});
+</script>

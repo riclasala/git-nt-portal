@@ -71,8 +71,8 @@
 
 								<p>
 									<?= ucwords(strtolower($distributor->first_name) . ' ' . strtolower($distributor->last_name)); ?><br>
-									<?= $rank ?>
-									<small><?= $team ?></small>
+									<?= $distributor->rank; ?>
+									<small><?= $distributor->team_area; ?></small>
 									<small>Member since <?= date("F j, Y", strtotime($distributor->date_joined)); ?></small>
 								</p>
 							</li>
@@ -94,7 +94,7 @@
 							<!-- Menu Footer-->
 							<li class="user-footer">
 								<div class="pull-left">
-									<a href="#" class="btn btn-default btn-flat">Profile</a>
+									<a href="<?php echo base_url(); ?>profile" class="btn btn-default btn-flat">Profile</a>
 								</div>
 								<div class="pull-right">
 									<a href="<?php base_url(); ?>logout" class="btn btn-default btn-flat"><i class="ion ion-power"></i> Sign out</a>
@@ -121,7 +121,7 @@
 					<img src="<?php echo base_url();?>assets/images/no_image.jpg" class="img-circle" alt="User Image">
 				</div>
 				<div class="pull-left info">
-					<!--<p><?= ucwords(strtolower($distributor->first_name) . ' ' . strtolower($distributor->last_name)); ?></p>-->
+					<p><?= ucwords(strtolower($distributor->first_name) . ' ' . strtolower($distributor->last_name)); ?></p>
 					<a href="#"><i class="fa fa-circle text-success"></i> Active</a>
 				</div>
 			</div>
@@ -167,7 +167,7 @@
 				</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-trophy text-primary"></i> <span>Eagle Awardee</span>
+						<i class="fa fa-trophy text-primary text-yellow"></i> <span class='text-yellow'>Eagle Awardee</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -196,14 +196,14 @@
 				</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-thumb-tack text-warning"></i> <span>Training Modules</span>
+						<i class="fa fa-thumb-tack text-blue"></i> <span class='text-blue'>Training Modules</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="<?php echo base_url();?>videotraining"><i class="fa fa-video-camera"></i> Videos</a></li>
-						<li><a href="<?php echo base_url();?>pdftraining"><i class="fa fa-file-pdf-o"></i> PDF Files</a></li>
+						<li><a href="<?php echo base_url();?>videotraining"><i class="fa fa-video-camera text-blue"></i> <span class='text-blue'>Videos</span></a></li>
+						<li><a href="<?php echo base_url();?>pdftraining"><i class="fa fa-file-pdf-o text-blue"></i> <span class='text-blue'>PDF Files</span></a></li>
 					</ul>
 				</li>
 			</ul>

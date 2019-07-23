@@ -2,29 +2,48 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class MY_Controller extends CI_Controller {
-
+		private $_distributor;
 		private $folderName;
 
+		public function getDistributor(){
+			return $this->_distributor;
+		}
 		public function __construct($_folderName = null){
 			parent::__construct();
 			$this->folderName = $_folderName;
 			
 			$this->load->helper('site_security');
 			$this->load->helper('site_settings');
+			$this->load->model('distributor');
 			$this->load->model('distributor_model');
 			$this->load->model('portal_model');
+			$this->load->model('api_model');
+			
+		}
+		
+		public function index(){
+			
 		}
 
-		public function login($fileName){
-			$this->load->view($this->getFileName($fileName));
-		}
 
 		public function display($fileName, $data = null){
-			//$data['distributor'] = $this->distributor_model->getInfo(23089);
-			$data = json_decode(json_encode($data), FALSE);
-			$this->load->view('layout/header', $data);
-			$this->load->view($this->getFileName($fileName), $data);
-			$this->load->view('layout/footer');
+
+			$distributor_id = $this->session->user_id;
+			
+			if(is_null($distributor_id)){
+				$this->load->view('login');
+				$this->load->view('layout/modal');
+			}else{
+				$this->_distributor = $this->distributor_model->getInfo($distributor_id);
+				$data['distributor'] = $this->_distributor;
+
+				$data = json_decode(json_encode($data), FALSE);
+				$this->load->view('layout/header', $data);
+				$this->load->view('layout/modal',$data);
+				$this->load->view($this->getFileName($fileName), $data);
+				$this->load->view('layout/footer');
+			}
+			
 		}
 
 		public function getFileName($fileName){

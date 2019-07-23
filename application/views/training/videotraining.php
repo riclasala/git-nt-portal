@@ -15,14 +15,6 @@
 	<div>
 </section> 
 
-<?php
-	foreach($distributors as $distributor){
-?>
-	<b><?php echo $distributor; ?></b>
-<?php
-
-	}
-?>
 <!-- Modal Video --> 
 <div class="modal fade modal_video" id = 'my_vt_modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"> 
 	<div class="modal-dialog modal-lg"> 

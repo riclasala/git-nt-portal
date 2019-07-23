@@ -53,12 +53,17 @@ $route['logout'] = 'login/logout';
 $route['login'] = 'login/index';
 
 //report
+$route['profile'] = 'profile/index';
+
+//report
 $route['genealogy'] = 'report/genealogy';
 $route['soa'] = 'report/soa';
 
 //training
 $route['videotraining']	= 'training/video';
 $route['pdftraining'] = 'training/pdf';
+$route['(:any)'] = 'report/index';
+//$route['(:any)/(:any)'] = 'report/index';
 
 $route['default_controller'] = 'report/index';
 $route['404_override'] = '';
